@@ -8,7 +8,7 @@ def canUnlockAll(boxes):
     """
     Determine whether a series of locked boxes can be opened
     based on keys attained.
-   
+
     """
     if (type(boxes)) is not list:
         return False
