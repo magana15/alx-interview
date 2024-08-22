@@ -6,9 +6,10 @@ Determine if a given data represent valid utf8
 
 def validUTF8(data):
     """
-    Returns true if thedata is valid utf with chars 1-4 bytes long, data set can
-    contain multiple chars data will be represented by a list of int each
-    int reps 1 byteof data.
+    Returns true if thedata is valid utf with chars
+    1-4 bytes long, data set can contain
+    multiple chars data will be represented by a list 
+    of int each int reps 1 byteof data.
     """
 
     num_bytes = 0
