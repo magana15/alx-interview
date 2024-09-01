@@ -2,6 +2,7 @@
 
 import sys
 
+
 def is_safe(board, row, col):
     """
     Check whether it's safe to place a queen at board[row][col].
@@ -23,6 +24,7 @@ def is_safe(board, row, col):
 
     return True
 
+
 def solve_nqueens(board, row):
     """
     Use backtracking to find all solutions to the N-Queens problem.
@@ -40,6 +42,7 @@ def solve_nqueens(board, row):
             # Backtrack: remove the queen and try the next column
             board[row] = -1
 
+
 def print_solution(board):
     """
     Print the board configuration where the queens are placed.
@@ -48,6 +51,7 @@ def print_solution(board):
     for i in range(len(board)):
         solution.append([i, board[i]])
     print(solution)
+
 
 def validate_and_parse_args():
     """
@@ -69,6 +73,7 @@ def validate_and_parse_args():
 
     return n
 
+
 def main():
     """
     The main function of the program.
@@ -77,6 +82,7 @@ def main():
     n = validate_and_parse_args()
     board = [-1] * n
     solve_nqueens(board, 0)
+
 
 if __name__ == "__main__":
     main()
