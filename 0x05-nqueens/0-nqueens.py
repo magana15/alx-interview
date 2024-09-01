@@ -1,85 +1,82 @@
 #!/usr/bin/python3
-"""N Queens placement on NxN  of chess"""
-
 
 import sys
 
-
-def generate_solutions(row, column):
+def is_safe(board, row, col):
     """
-    solve a simple N x N matrix
-    Args:
-        row (int): Number of rows
-        column (int): Number of columns
-    Returns:
-        returns a list of lists
+    Check whether it's safe to place a queen at board[row][col].
     """
-    solution = [[]]
-    for queen in range(row):
-        solution = place_queen(queen, column, solution)
-    return solution
+    # check column
+    for i in range(row):
+        if board[i] == col:
+            return False
 
+    # check upper-left diagonal
+    for i, j in zip(range(row - 1, -1, -1), range(col - 1, -1, -1)):
+        if board[i] == j:
+            return False
 
-def place_queen(queen, column, prev_solution):
+    # check upper-right diagonal
+    for i, j in zip(range(row - 1, -1, -1), range(col + 1, len(board))):
+        if board[i] == j:
+            return False
+
+    return True
+
+def solve_nqueens(board, row):
     """
-    Place queen at a position
-    Args:
-        queen (int): The queen
+    Use backtracking to find all solutions to the N-Queens problem.
     """
-    safe_position = []
-    for array in prev_solution:
-        for x in range(column):
-            if is_safe(queen, x, array):
-                safe_position.append(array + [x])
-    return safe_position
+    n = len(board)
+    if row == n:
+        # A valid solution is found, print it
+        print_solution(board)
+        return
 
+    for col in range(n):
+        if is_safe(board, row, col):
+            board[row] = col
+            solve_nqueens(board, row + 1)
+            # Backtrack: remove the queen and try the next column
+            board[row] = -1
 
-def is_safe(q, x, array):
+def print_solution(board):
     """
-    check if it's safe to make a move
+    Print the board configuration where the queens are placed.
     """
-    if x in array:
-        return (False)
-    else:
-        return all(abs(array[column] - x) != q - column
-                   for column in range(q))
+    solution = []
+    for i in range(len(board)):
+        solution.append([i, board[i]])
+    print(solution)
 
-
-def init():
+def validate_and_parse_args():
     """
-    Lets initialize the game shall we?
-    Args:
-        this function doesn't take any args
+    Validate and parse the command-line arguments.
     """
     if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
-    if sys.argv[1].isdigit():
+
+    try:
         n = int(sys.argv[1])
-    else:
+    except ValueError:
         print("N must be a number")
         sys.exit(1)
+
     if n < 4:
         print("N must be at least 4")
         sys.exit(1)
-    return (n)
 
+    return n
 
-def n_queens():
+def main():
     """
-    The main entry point
-    Args:
-        can be called without passing args
-    
+    The main function of the program.
+    It validates input, initializes the board, and calls the solver function.
     """
-    n = init()
-    solutions = generate_solutions(n, n)
-    for array in solutions:
-        clean = []
-        for q, x in enumerate(array):
-            clean.append([q, x])
-        print(clean)
+    n = validate_and_parse_args()
+    board = [-1] * n
+    solve_nqueens(board, 0)
 
-
-if __name__ == '__main__':
-    n_queens()
+if __name__ == "__main__":
+    main()
