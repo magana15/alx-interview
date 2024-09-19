@@ -19,15 +19,24 @@ def makeChange(coins, total):
     # Sort coins to start with larger values for more efficient reduction
     coins.sort(reverse=True)
 
-    # Initialize DP array for dynamic programming
-    dp = [float('inf')] * (total + 1)
-    dp[0] = 0
-
-    # Iterate over every amount from 1 to total
-    for i in range(1, total + 1):
-        for coin in coins:
-            if coin <= i:
-                dp[i] = min(dp[i], dp[i - coin] + 1)
-
-    # If dp[total] is still infinity, it means we cannot reach the total
-    return dp[total] if dp[total] != float('inf') else -1
+    # Initialize the coin count to zero
+    coin_count = 0
+    # Iterate through each coin in the coin list
+    for coin in coins:
+        # If the coin is > the remaining total, skip it
+        if coin > total:
+            continue
+        # Calculate the number of times the coin can be used
+        count = total // coin
+        # Update the total by subtracting the value of coins used
+        total -= count * coin
+        # Update the coin count by adding the number of coins used
+        coin_count += count
+        # If the total is now zero, we're done
+        if total == 0:
+            break
+    # If we couldn't make change for the total, return -1
+    if total > 0:
+        return -1
+    # Otherwise, return the coin count
+    return coin_count
