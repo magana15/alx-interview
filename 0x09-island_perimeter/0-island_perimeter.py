@@ -1,4 +1,12 @@
+#!/usr/bin/python3
+
+
+"""perimeter module"""
+
+
 def island_perimeter(grid):
+
+    """checking the perimeter"""
     perimeter = 0
     rows = len(grid)
     cols = len(grid[0]) if rows > 0 else 0
