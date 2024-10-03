@@ -1,39 +1,44 @@
 #!/usr/bin/python3
+"""Module for the Prime Game"""
 
-"""a game module"""
+
 def isWinner(x, nums):
-    """the winner method"""
-    if x < 1 or not nums:
+    """
+    Determines the winner of a set of prime number removal games.
+
+
+    """
+    if x <= 0 or nums is None:
         return None
+    if x != len(nums):
+        return None
+    ben = 0
+    maria = 0
 
-    max_n = max(nums)
+    a = [1 for x in range(sorted(nums)[-1] + 1)]
+    a[0], a[1] = 0, 0
 
-    sieve = [True] * (max_n + 1)
-    sieve[0] = sieve[1] = False
-
-    for i in range(2, int(max_n ** 0.5) + 1):
-        if sieve[i]:
-            for j in range(i * i, max_n + 1, i):
-                sieve[j] = False
-    primes = [i for i in range(2, max_n + 1) if sieve[i]]
-
-    maria_wins = 0
-    ben_wins = 0
-
-    for n in nums:
-        prime_count = 0
-        for p in primes:
-            if p > n:
-                break
-            prime_count += 1
-
-        if prime_count % 2 == 1:
-            maria_wins += 1
+    for i in range(2, len(a)):
+        rm_multiples(a, i)
+    for i in nums:
+        if sum(a[0:i + 1]) % 2 == 0:
+            ben += 1
         else:
-            ben_wins += 1
-    if maria_wins > ben_wins:
-        return "Maria"
-    elif ben_wins > maria_wins:
+            maria += 1
+    if ben > maria:
         return "Ben"
-    else:
-        return None
+    if maria > ben:
+        return "Maria"
+    return None
+
+
+def rm_multiples(ls, x):
+    """
+    Removes multiples of a prime number from an array of possible prime
+    numbers.
+    """
+    for i in range(2, len(ls)):
+        try:
+            ls[i * x] = 0
+        except (ValueError, IndexError):
+            break
