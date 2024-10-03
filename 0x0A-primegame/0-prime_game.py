@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
-
+"""a game module"""
 def isWinner(x, nums):
+    """the winner method"""
     if x < 1 or not nums:
         return None
 
